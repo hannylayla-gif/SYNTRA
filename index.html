@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SYNTRA — Synchronized Transit AI</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="logo">SYN<span>TRA</span></div>
+    <div class="header-right">
+      <span class="badge-live"><i class="ti ti-circle-filled"></i> Live</span>
+      <span class="clock" id="clock">--:--:--</span>
+    </div>
+  </header>
+
+  <!-- TABS -->
+  <nav class="tabs">
+    <button class="tab active" onclick="switchTab('operator')">
+      <i class="ti ti-layout-dashboard"></i> Operator Dashboard
+    </button>
+    <button class="tab" onclick="switchTab('passenger')">
+      <i class="ti ti-map-pin"></i> Passenger Interface
+    </button>
+  </nav>
+
+  <!-- ===== OPERATOR PANEL ===== -->
+  <div class="panel active" id="tab-operator">
+
+    <!-- Metrics -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Fleet on time</div>
+        <div class="metric-val green" id="m-ontime">87%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Avg wait time</div>
+        <div class="metric-val amber" id="m-wait">4.2 min</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Active buses</div>
+        <div class="metric-val" id="m-buses">34</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Passengers today</div>
+        <div class="metric-val" id="m-pax">12,480</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+
+      <!-- Fleet Table -->
+      <div class="card">
+        <div class="card-title">Fleet status</div>
+        <table class="fleet-table">
+          <thead>
+            <tr>
+              <th>Bus ID</th>
+              <th>Route</th>
+              <th>ETA</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="fleet-body"></tbody>
+        </table>
+      </div>
+
+      <!-- Right column -->
+      <div>
+        <!-- Alerts -->
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-title">Live alerts</div>
+          <div id="alerts-container"></div>
+        </div>
+
+        <!-- Density -->
+        <div class="card">
+          <div class="card-title">Station density</div>
+          <div id="density-container"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Sim Buttons -->
+    <div class="btn-row">
+      <button class="btn btn-warning" onclick="triggerDelay()">
+        <i class="ti ti-alert-triangle"></i> Simulate MRT delay
+      </button>
+      <button class="btn btn-info" onclick="triggerSurge()">
+        <i class="ti ti-users"></i> Simulate passenger surge
+      </button>
+      <button class="btn" onclick="resetSim()">
+        <i class="ti ti-refresh"></i> Reset
+      </button>
+    </div>
+
+  </div>
+
+  <!-- ===== PASSENGER PANEL ===== -->
+  <div class="panel" id="tab-passenger">
+
+    <div class="sync-banner" id="sync-banner">
+      <i class="ti ti-check"></i>
+      <span id="sync-text">All connections synchronized — no delays detected</span>
+    </div>
+
+    <!-- Bus route card -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="route-header">
+        <div class="route-icon"><i class="ti ti-bus"></i></div>
+        <div>
+          <div class="route-title">Feeder B12 → MRT Lebak Bulus</div>
+          <div class="route-sub">Estimated journey: 18 min</div>
+        </div>
+      </div>
+      <div class="stops" id="stop-list"></div>
+    </div>
+
+    <!-- MRT connection card -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="route-header">
+        <div class="route-icon train"><i class="ti ti-train"></i></div>
+        <div>
+          <div class="route-title">MRT Lebak Bulus → Bundaran HI</div>
+          <div class="route-sub" id="mrt-sub">Next departure: on schedule</div>
+        </div>
+      </div>
+      <div class="metrics-grid" style="margin-top:12px">
+        <div class="metric-card">
+          <div class="metric-label">MRT departs in</div>
+          <div class="metric-val green" id="mrt-depart">6 min</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Bus arrives in</div>
+          <div class="metric-val green" id="bus-arrive">4 min</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Transfer buffer</div>
+          <div class="metric-val" id="transfer-buf">2 min</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Connection</div>
+          <div class="metric-val green" id="conn-status">Secure</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-warning" onclick="triggerDelay()">
+        <i class="ti ti-alert-triangle"></i> Simulate MRT delay
+      </button>
+      <button class="btn" onclick="resetSim()">
+        <i class="ti ti-refresh"></i> Reset
+      </button>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
